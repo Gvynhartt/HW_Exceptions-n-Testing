@@ -5,8 +5,15 @@ public class ProductManager {
         this.prodRepo = prodRepo;
     }
 
-    public void addProductToRepo(Product productEntry) { /** добавляет объект продукта в репозиторий */
+    public void addProductToRepo(Product productEntry) throws AlreadyExistsException { /** добавляет объект продукта в репозиторий */
         Product[] productDatabase = prodRepo.getProductDatabase();
+
+        for (Product targetProd : productDatabase) {
+            if (targetProd.getProdId() == productEntry.getProdId()) {
+                throw new AlreadyExistsException("Товар с таким ID (" + targetProd.getProdId() + ") уже добавлен в БД");
+            }
+        }
+
         Product[] bufferDatabase = new Product[productDatabase.length + 1];
         for (int pos = 0; pos < productDatabase.length; pos++) {
             bufferDatabase[pos] = productDatabase[pos];

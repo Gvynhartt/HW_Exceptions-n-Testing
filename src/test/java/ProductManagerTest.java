@@ -102,28 +102,10 @@ public class ProductManagerTest {
         prodMngr.addProductToRepo(phone2);
         prodMngr.addProductToRepo(phone4); /** удаляем phone4, ID: 9 */
         prodMngr.addProductToRepo(product3);
-        prodMngr.addProductToRepo(product4);
 
         prodMngr.deleteFromDBbyID(9);
 
-        Product[] expected = {book3, book5, phone2, product3, product4};
-        Product[] actual = prodMngr.returnAllProductsInDB();
-
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shdDeleteFromDBifDuplicateIDs() { /** проверяет удаление объекта по ID, если ID совпадает у нескольких объектов */
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book5);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(product3); /** удаляем ID 13 */
-        prodMngr.addProductToRepo(product4); /** удаляем ID 13 */
-
-        prodMngr.deleteFromDBbyID(13);
-
-        Product[] expected = {book3, book5, phone2, phone4};
+        Product[] expected = {book3, book5, phone2, product3};
         Product[] actual = prodMngr.returnAllProductsInDB();
 
         Assertions.assertArrayEquals(expected, actual);
@@ -380,5 +362,32 @@ public class ProductManagerTest {
         Assertions.assertThrows(NotFoundException.class, () -> {
             prodMngr.deleteFromDBbyID(21);
         });
+    }
+
+    @Test
+    /** #ALREADYEXISTS */
+    public void shdAddProductToDBwithIDcheck() { /** проверяет добавление объекта в репозиторий с отслеживанием повтора ID */
+        prodMngr.addProductToRepo(book1);
+        prodMngr.addProductToRepo(book2);
+        prodMngr.addProductToRepo(book3);
+        prodMngr.addProductToRepo(book4);
+        prodMngr.addProductToRepo(book5);
+
+        Product[] expected = {book1, book2, book3, book4, book5};
+        Product[] actual = prodRepo.getProductDatabase();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    /** #ALREADYEXISTS */
+    public void shdAddProductToDBwithIDcheckException() { /** проверяет выброс исключения при дублировании ID */
+        prodMngr.addProductToRepo(book1);
+        prodMngr.addProductToRepo(book2);
+        prodMngr.addProductToRepo(book3);
+        prodMngr.addProductToRepo(book4);
+        prodMngr.addProductToRepo(book5);
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {prodMngr.addProductToRepo(book5);});
     }
 }
