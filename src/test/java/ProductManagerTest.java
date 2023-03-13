@@ -28,7 +28,7 @@ public class ProductManagerTest {
 
     @Test
     public void shdAddBookToDB() { /** проверяет добавление объекта из разных классов */
-        prodMngr.addProductToRepo(book1);
+        prodRepo.addProductToRepo(book1);
 
         Product[] expected = {book1};
         Product[] actual = prodMngr.returnAllProductsInDB();
@@ -38,7 +38,7 @@ public class ProductManagerTest {
 
     @Test
     public void shdAddPhoneToDB() { /** проверяет добавление объекта из разных классов */
-        prodMngr.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone1);
 
         Product[] expected = {phone1};
         Product[] actual = prodMngr.returnAllProductsInDB();
@@ -48,7 +48,7 @@ public class ProductManagerTest {
 
     @Test
     public void shdAddProductToDBifEmpty() { /** проверяет добавление объекта в пустое поле */
-        prodMngr.addProductToRepo(product1);
+        prodRepo.addProductToRepo(product1);
 
         Product[] expected = {product1};
         Product[] actual = prodMngr.returnAllProductsInDB();
@@ -61,7 +61,7 @@ public class ProductManagerTest {
         Product[] productDatabase = {book3, phone5, product4};
         prodRepo.setProductDatabase(productDatabase);
 
-        prodMngr.addProductToRepo(product1);
+        prodRepo.addProductToRepo(product1);
 
         Product[] expected = {book3, phone5, product4, product1};
         Product[] actual = prodMngr.returnAllProductsInDB();
@@ -71,11 +71,11 @@ public class ProductManagerTest {
 
     @Test
     public void shdReturnAllObjInDB() { /** проверяет возврат всех объектов в репозитории */
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book5);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(product3);
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(book5);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(product3);
 
         Product[] expected = {book3, book5, phone2, phone4, product3};
         Product[] actual = prodMngr.returnAllProductsInDB();
@@ -85,9 +85,9 @@ public class ProductManagerTest {
 
     @Test
     public void shdDeleteFromDBifSingle() { /** проверяет удаление одного объекта по ID, если он единственный в поле */
-        prodMngr.addProductToRepo(phone5); /** удаляем phone5, ID: 10 */
+        prodRepo.addProductToRepo(phone5); /** удаляем phone5, ID: 10 */
 
-        prodMngr.deleteFromDBbyID(10);
+        prodRepo.deleteFromDBbyID(10);
 
         Product[] expected = {};
         Product[] actual = prodMngr.returnAllProductsInDB();
@@ -97,13 +97,13 @@ public class ProductManagerTest {
 
     @Test
     public void shdDeleteFromDBnormal() { /** проверяет удаление одного объекта по ID в "простом" виде */
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book5);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone4); /** удаляем phone4, ID: 9 */
-        prodMngr.addProductToRepo(product3);
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(book5);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone4); /** удаляем phone4, ID: 9 */
+        prodRepo.addProductToRepo(product3);
 
-        prodMngr.deleteFromDBbyID(9);
+        prodRepo.deleteFromDBbyID(9);
 
         Product[] expected = {book3, book5, phone2, product3};
         Product[] actual = prodMngr.returnAllProductsInDB();
@@ -113,11 +113,11 @@ public class ProductManagerTest {
 
     @Test
     public void shdFindQueryMatchesInDB() { /** проверяет работу поиска в "простом" случае (по кратчайшему пути) */
-        prodMngr.addProductToRepo(book1);
-        prodMngr.addProductToRepo(book2);
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book4);
-        prodMngr.addProductToRepo(book5);
+        prodRepo.addProductToRepo(book1);
+        prodRepo.addProductToRepo(book2);
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(book4);
+        prodRepo.addProductToRepo(book5);
 
         Product[] expected = {book3};
         Product[] actual = prodMngr.searchByText("zhit'");
@@ -127,11 +127,11 @@ public class ProductManagerTest {
 
     @Test
     public void shdFindQueryMatchesInDBMultiple() { /** проверяет работу поиска для множественных совпадений */
-        prodMngr.addProductToRepo(book1); /** содержит символы "to" */
-        prodMngr.addProductToRepo(book2); /** содержит символы "to" */
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book4); /** содержит символы "to" */
-        prodMngr.addProductToRepo(book5);
+        prodRepo.addProductToRepo(book1); /** содержит символы "to" */
+        prodRepo.addProductToRepo(book2); /** содержит символы "to" */
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(book4); /** содержит символы "to" */
+        prodRepo.addProductToRepo(book5);
 
         Product[] expected = {book1, book2, book4};
         Product[] actual = prodMngr.searchByText("to");
@@ -141,13 +141,13 @@ public class ProductManagerTest {
 
     @Test
     public void shdFindQueryMatchesInDBMultipleAcrossClasses() { /** проверяет работу поиска для множественных совпадений в разных классах */
-        prodMngr.addProductToRepo(book2); /** содержит символы "de" */
-        prodMngr.addProductToRepo(book4); /** содержит символы "de" */
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(phone1); /** содержит символы "de" */
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(product2);
-        prodMngr.addProductToRepo(product4); /** содержит символы "de" */
+        prodRepo.addProductToRepo(book2); /** содержит символы "de" */
+        prodRepo.addProductToRepo(book4); /** содержит символы "de" */
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(phone1); /** содержит символы "de" */
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(product2);
+        prodRepo.addProductToRepo(product4); /** содержит символы "de" */
 
         Product[] expected = {book2, book4, phone1, product4};
         Product[] actual = prodMngr.searchByText("de");
@@ -157,13 +157,13 @@ public class ProductManagerTest {
 
     @Test
     public void shdFindQueryMatchesInDBifNonexistent() { /** проверяет работу поиска, если нет совпадений с запросом */
-        prodMngr.addProductToRepo(book2);
-        prodMngr.addProductToRepo(book4);
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(product2);
-        prodMngr.addProductToRepo(product4);
+        prodRepo.addProductToRepo(book2);
+        prodRepo.addProductToRepo(book4);
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(product2);
+        prodRepo.addProductToRepo(product4);
 
         Product[] expected = {};
         Product[] actual = prodMngr.searchByText("aboba");
@@ -173,11 +173,11 @@ public class ProductManagerTest {
 
     @Test
     public void shdFindQueryMatchesInDBifCaseNotMatch() { /** проверяет работу поиска, если запрос набран в другом регистре */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Product[] expected = {};
         Product[] actual = prodMngr.searchByText("yANDEX");
@@ -187,11 +187,11 @@ public class ProductManagerTest {
 
     @Test
     public void shdFindQueryMatchesInDBifContainsSpaces() { /** проверяет работу поиска, если в запросе есть пробелы */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Product[] expected = {phone4};
         Product[] actual = prodMngr.searchByText("Yota Yoga Yoda Phone");
@@ -201,11 +201,11 @@ public class ProductManagerTest {
 
     @Test
     public void shdFindQueryMatchesInDBifContainsNumerics() { /** проверяет работу поиска, если в запросе содержатся цифры */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Product[] expected = {phone2};
         Product[] actual = prodMngr.searchByText("3310");
@@ -215,11 +215,11 @@ public class ProductManagerTest {
 
     @Test
     public void shdFindQueryMatchesInDBifContainsOtherSymbols() { /** проверяет работу поиска, если в запросе есть прочие символы */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Product[] expected = {phone3};
         Product[] actual = prodMngr.searchByText("El'brus");
@@ -230,11 +230,11 @@ public class ProductManagerTest {
     @Test
     /** #RICH */
     public void shdFindMatchesInSubClassBookNormal() { /** проверяет поиск в подклассе BOOK для доп. полей */
-        prodMngr.addProductToRepo(book1);
-        prodMngr.addProductToRepo(book2);
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book4);
-        prodMngr.addProductToRepo(book5);
+        prodRepo.addProductToRepo(book1);
+        prodRepo.addProductToRepo(book2);
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(book4);
+        prodRepo.addProductToRepo(book5);
 
         Product[] expected = {book5};
         Product[] actual = prodMngr.searchByText("Нечаев");
@@ -245,11 +245,11 @@ public class ProductManagerTest {
     @Test
     /** #RICH */
     public void shdFindMatchesInSubClassBookIfNonexistent() { /** проверяет поиск в подклассе BOOK для доп. полей, если нет совпадений */
-        prodMngr.addProductToRepo(book1);
-        prodMngr.addProductToRepo(book2);
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book4);
-        prodMngr.addProductToRepo(book5);
+        prodRepo.addProductToRepo(book1);
+        prodRepo.addProductToRepo(book2);
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(book4);
+        prodRepo.addProductToRepo(book5);
 
         Product[] expected = {};
         Product[] actual = prodMngr.searchByText("Барков");
@@ -260,11 +260,11 @@ public class ProductManagerTest {
     @Test
     /** #RICH */
     public void shdFindMatchesInSubClassPhoneNormal() { /** проверяет поиск в подклассе SMARTPHONE для доп. полей */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Product[] expected = {phone1, phone2, phone3, phone4, phone5};
         Product[] actual = prodMngr.searchByText("Zhui");
@@ -275,11 +275,11 @@ public class ProductManagerTest {
     @Test
     /** #RICH */
     public void shdFindMatchesInSubClassPhoneIfNonexistent() { /** проверяет поиск в подклассе SMARTPHONE для доп. полей, если нет совпадений */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Product[] expected = {};
         Product[] actual = prodMngr.searchByText("Xiaomi");
@@ -295,8 +295,8 @@ public class ProductManagerTest {
         Book book6 = new Book(15, "Google - the Corp of All Evil", 2077, "Гугл - корпорация зла", "Стив Джобс");
         Smartphone phone6 = new Smartphone(16, "Pixel 100 500", 5928, "GP3450D", "Google Inc");
 
-        prodMngr.addProductToRepo(book6);
-        prodMngr.addProductToRepo(phone6);
+        prodRepo.addProductToRepo(book6);
+        prodRepo.addProductToRepo(phone6);
 
         Product[] expected = {book6, phone6};
         Product[] actual = prodMngr.searchByText("Google");
@@ -307,14 +307,14 @@ public class ProductManagerTest {
     @Test
     /** #NOTFOUND */
     public void shdFindInDBbyIDnormal() { /** сперва проверяем раобту "findById" с ID, имеющимся в БД */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3); /** ищем этот объект по ID 8 */
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3); /** ищем этот объект по ID 8 */
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Product expected = phone3;
-        Product actual = prodMngr.findById(8);
+        Product actual = prodRepo.findById(8);
 
         Assertions.assertEquals(expected, actual);
     }
@@ -322,14 +322,14 @@ public class ProductManagerTest {
     @Test
     /** #NOTFOUND */
     public void shdFindInDBbyIDifNonexistent() { /** потом проверяем раобту "findById" с ID, которого в БД нет */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Product expected = null;
-        Product actual = prodMngr.findById(21);
+        Product actual = prodRepo.findById(21);
 
         Assertions.assertEquals(expected, actual);
     }
@@ -337,12 +337,12 @@ public class ProductManagerTest {
     @Test
     /** #NOTFOUND */
     public void shdDeleteFromDBbyIDifFound() { /** проверяем работу метода после дополнения логики по позитивному сценарию */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3); /** удалем этот объект по ID 8 */
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
-        prodMngr.deleteFromDBbyID(8);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3); /** удалем этот объект по ID 8 */
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
+        prodRepo.deleteFromDBbyID(8);
 
         Product[] expected = {phone1, phone2, phone4, phone5};
         Product[] actual = prodMngr.returnAllProductsInDB();
@@ -353,25 +353,25 @@ public class ProductManagerTest {
     @Test
     /** #NOTFOUND */
     public void shdDeleteFromDBbyIDifNotFound() { /** собственно, тестируем метод на выброс требуемого исключения */
-        prodMngr.addProductToRepo(phone1);
-        prodMngr.addProductToRepo(phone2);
-        prodMngr.addProductToRepo(phone3);
-        prodMngr.addProductToRepo(phone4);
-        prodMngr.addProductToRepo(phone5);
+        prodRepo.addProductToRepo(phone1);
+        prodRepo.addProductToRepo(phone2);
+        prodRepo.addProductToRepo(phone3);
+        prodRepo.addProductToRepo(phone4);
+        prodRepo.addProductToRepo(phone5);
 
         Assertions.assertThrows(NotFoundException.class, () -> {
-            prodMngr.deleteFromDBbyID(21);
+            prodRepo.deleteFromDBbyID(21);
         });
     }
 
     @Test
     /** #ALREADYEXISTS */
     public void shdAddProductToDBwithIDcheck() { /** проверяет добавление объекта в репозиторий с отслеживанием повтора ID */
-        prodMngr.addProductToRepo(book1);
-        prodMngr.addProductToRepo(book2);
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book4);
-        prodMngr.addProductToRepo(book5);
+        prodRepo.addProductToRepo(book1);
+        prodRepo.addProductToRepo(book2);
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(book4);
+        prodRepo.addProductToRepo(book5);
 
         Product[] expected = {book1, book2, book3, book4, book5};
         Product[] actual = prodRepo.getProductDatabase();
@@ -382,12 +382,12 @@ public class ProductManagerTest {
     @Test
     /** #ALREADYEXISTS */
     public void shdAddProductToDBwithIDcheckException() { /** проверяет выброс исключения при дублировании ID */
-        prodMngr.addProductToRepo(book1);
-        prodMngr.addProductToRepo(book2);
-        prodMngr.addProductToRepo(book3);
-        prodMngr.addProductToRepo(book4);
-        prodMngr.addProductToRepo(book5);
+        prodRepo.addProductToRepo(book1);
+        prodRepo.addProductToRepo(book2);
+        prodRepo.addProductToRepo(book3);
+        prodRepo.addProductToRepo(book4);
+        prodRepo.addProductToRepo(book5);
 
-        Assertions.assertThrows(AlreadyExistsException.class, () -> {prodMngr.addProductToRepo(book5);});
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {prodRepo.addProductToRepo(book5);});
     }
 }
